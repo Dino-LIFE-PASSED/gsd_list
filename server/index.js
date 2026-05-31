@@ -26,6 +26,11 @@ app.use('/api/defects', require('./routes/defects'))
 app.use('/api/users',   require('./routes/users'))
 app.use('/api/upload',  require('./routes/upload'))
 
+// Serve React (ต้องอยู่หลัง /api ทุกตัว)
+const distPath = path.join(__dirname, '../dist')
+app.use(express.static(distPath))
+app.get('*', (_req, res) => res.sendFile(path.join(distPath, 'index.html')))
+
 // Start
 initDb().then(() => {
   app.listen(PORT, '0.0.0.0', () => {
